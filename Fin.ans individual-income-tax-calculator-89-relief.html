@@ -1,0 +1,2815 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="FIN.ANS tax and compliance portal with official Indian links, income tax calculator, and Section 89 arrears relief tools." />
+  <meta name="theme-color" content="#061018" />
+  <title>FIN.ANS | Tax & Compliance Calculator Portal</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #061018;
+      --panel: rgba(9, 25, 35, 0.68);
+      --panel-strong: rgba(11, 33, 44, 0.86);
+      --text: #effaff;
+      --muted: #9bc1ca;
+      --line: rgba(122, 255, 229, 0.22);
+      --cyan: #5ffcf1;
+      --mint: #82ffb7;
+      --amber: #ffd166;
+      --pink: #ff6fb1;
+      --blue: #75a7ff;
+      --shadow: 0 24px 90px rgba(0, 0, 0, 0.38);
+      --radius: 18px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(95, 252, 241, 0.16), transparent 28rem),
+        radial-gradient(circle at 84% 12%, rgba(255, 209, 102, 0.12), transparent 24rem),
+        linear-gradient(135deg, #051019 0%, #071c25 48%, #09111d 100%);
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .particle-field {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background-image:
+        radial-gradient(circle, rgba(130, 255, 183, 0.45) 0 1px, transparent 1.8px),
+        radial-gradient(circle, rgba(95, 252, 241, 0.35) 0 1px, transparent 1.6px);
+      background-size: 62px 62px, 104px 104px;
+      animation: drift 26s linear infinite;
+      mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.82) 56%, transparent 100%);
+    }
+
+    @keyframes drift {
+      from { transform: translate3d(0, 0, 0); }
+      to { transform: translate3d(-104px, 62px, 0); }
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 34px));
+      margin: 0 auto;
+      padding: 28px 0 64px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      position: sticky;
+      top: 14px;
+      z-index: 50;
+      padding: 12px 14px;
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 999px;
+      background: rgba(4, 15, 22, 0.74);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 12px 44px rgba(0,0,0,0.25);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(95,252,241,0.45);
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(95,252,241,0.14), rgba(255,209,102,0.13));
+      color: var(--cyan);
+      box-shadow: 0 0 28px rgba(95,252,241,0.2);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a, .nav button, .glow-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid rgba(95,252,241,0.24);
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.045);
+      color: #dffcff;
+      font-size: 13px;
+      font-weight: 750;
+      box-shadow: inset 0 0 18px rgba(255,255,255,0.03);
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      cursor: pointer;
+    }
+
+    .nav a:hover, .nav button:hover, .nav button:focus-visible, .glow-button:hover, .glow-button:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(130,255,183,0.75);
+      background: rgba(95,252,241,0.1);
+      box-shadow: 0 0 28px rgba(95,252,241,0.22), inset 0 0 18px rgba(130,255,183,0.08);
+      outline: none;
+    }
+
+    .hero {
+      min-height: 76vh;
+      display: grid;
+      align-items: center;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 34px;
+      padding: 54px 0 42px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      margin-bottom: 18px;
+      padding: 8px 12px;
+      border: 1px solid rgba(130,255,183,0.28);
+      border-radius: 999px;
+      background: rgba(130,255,183,0.08);
+      color: #c7ffe1;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 0;
+      font-size: clamp(46px, 8vw, 106px);
+      line-height: 0.92;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.68;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .primary {
+      border-color: rgba(95,252,241,0.72);
+      background: linear-gradient(135deg, rgba(95,252,241,0.2), rgba(130,255,183,0.12));
+      box-shadow: 0 0 40px rgba(95,252,241,0.18);
+    }
+
+    .holo-device {
+      position: relative;
+      min-height: 430px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 32px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.03)),
+        rgba(8, 26, 35, 0.5);
+      backdrop-filter: blur(22px);
+      box-shadow: var(--shadow), inset 0 0 80px rgba(95,252,241,0.08);
+      transform-style: preserve-3d;
+      overflow: hidden;
+    }
+
+    .holo-device::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(from 180deg, transparent, rgba(95,252,241,0.18), transparent, rgba(255,209,102,0.16), transparent);
+      animation: spin 10s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .device-inner {
+      position: absolute;
+      inset: 1px;
+      display: grid;
+      align-content: center;
+      gap: 18px;
+      padding: 28px;
+      border-radius: 31px;
+      background: rgba(4, 14, 22, 0.86);
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .metric {
+      min-height: 112px;
+      padding: 16px;
+      border: 1px solid rgba(95,252,241,0.18);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.045);
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 16px;
+      font-size: clamp(28px, 4vw, 42px);
+      color: var(--cyan);
+    }
+
+    section { padding: 38px 0; }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(28px, 5vw, 56px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      max-width: 520px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .glass-card {
+      position: relative;
+      isolation: isolate;
+      min-height: 170px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at var(--mx, 50%) var(--my, 0%), rgba(95,252,241,0.18), transparent 34%),
+        linear-gradient(145deg, rgba(255,255,255,0.105), rgba(255,255,255,0.035));
+      box-shadow: var(--shadow), inset 0 0 42px rgba(95,252,241,0.035);
+      backdrop-filter: blur(18px);
+      transform-style: preserve-3d;
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      overflow: hidden;
+    }
+
+    .glass-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      opacity: 0;
+      background: linear-gradient(135deg, rgba(95,252,241,0.3), transparent 38%, rgba(255,209,102,0.16));
+      transition: opacity 220ms ease;
+    }
+
+    .glass-card:hover, .glass-card:focus-within {
+      border-color: rgba(95,252,241,0.62);
+      box-shadow: 0 28px 95px rgba(0,0,0,0.42), 0 0 42px rgba(95,252,241,0.16);
+    }
+
+    .glass-card:hover::after, .glass-card:focus-within::after { opacity: 1; }
+
+    .card-icon {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(95,252,241,0.28);
+      border-radius: 15px;
+      color: var(--cyan);
+      background: rgba(95,252,241,0.09);
+      font-weight: 900;
+      box-shadow: 0 0 22px rgba(95,252,241,0.15);
+    }
+
+    .glass-card h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+      line-height: 1.25;
+    }
+
+    .glass-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 9px 12px;
+      border: 1px solid rgba(130,255,183,0.38);
+      border-radius: 999px;
+      color: #eafff4;
+      background: rgba(130,255,183,0.08);
+      font-size: 12px;
+      font-weight: 850;
+      box-shadow: 0 0 24px rgba(130,255,183,0.12);
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .card-link:hover, .card-link:focus-visible {
+      transform: translateY(-2px);
+      background: rgba(130,255,183,0.16);
+      box-shadow: 0 0 34px rgba(130,255,183,0.24);
+      outline: none;
+    }
+
+    .bank-strip {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .bank-chip {
+      min-height: 62px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.055);
+      color: #e9fbff;
+      font-weight: 850;
+      text-align: center;
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .bank-chip:hover, .bank-chip:focus-visible {
+      transform: translateY(-4px);
+      border-color: rgba(255,209,102,0.58);
+      box-shadow: 0 0 30px rgba(255,209,102,0.14);
+      outline: none;
+    }
+
+    .news-console {
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 26px;
+      background: rgba(5, 17, 25, 0.68);
+      backdrop-filter: blur(22px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .ticker {
+      display: flex;
+      gap: 28px;
+      width: max-content;
+      padding: 14px 0;
+      color: #071018;
+      background: linear-gradient(90deg, var(--cyan), var(--mint), var(--amber));
+      font-weight: 900;
+      animation: ticker 32s linear infinite;
+    }
+
+    .ticker-wrap {
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .news-tools {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      padding: 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .search {
+      width: 100%;
+      min-height: 46px;
+      padding: 0 16px;
+      border: 1px solid rgba(95,252,241,0.22);
+      border-radius: 999px;
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      outline: none;
+    }
+
+    .search:focus {
+      border-color: rgba(95,252,241,0.68);
+      box-shadow: 0 0 0 4px rgba(95,252,241,0.08);
+    }
+
+    .filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter {
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 999px;
+      padding: 10px 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.045);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .filter.active {
+      color: #061018;
+      background: var(--cyan);
+      border-color: transparent;
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      padding: 18px;
+    }
+
+    .news-card {
+      min-height: 278px;
+      display: flex;
+      flex-direction: column;
+      padding: 18px;
+      border: 1px solid rgba(95,252,241,0.16);
+      border-radius: 18px;
+      background:
+        linear-gradient(155deg, rgba(95,252,241,0.09), rgba(255,255,255,0.035) 42%, rgba(255,209,102,0.075)),
+        rgba(255,255,255,0.035);
+      box-shadow: inset 0 0 44px rgba(255,255,255,0.03);
+      transform-style: preserve-3d;
+      transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+    }
+
+    .news-card:hover, .news-card:focus-within {
+      border-color: rgba(95,252,241,0.58);
+      box-shadow: 0 22px 70px rgba(0,0,0,0.34), 0 0 32px rgba(95,252,241,0.12);
+    }
+
+    .news-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .badge {
+      color: #061018;
+      background: var(--amber);
+      border-radius: 999px;
+      padding: 5px 8px;
+      white-space: nowrap;
+    }
+
+    .news-card h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .summary {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    details {
+      margin-top: auto;
+      border-top: 1px solid rgba(255,255,255,0.09);
+      padding-top: 12px;
+    }
+
+    summary {
+      color: var(--cyan);
+      cursor: pointer;
+      font-weight: 850;
+    }
+
+    .detail-copy {
+      margin: 12px 0 0;
+      color: #ccecf2;
+      line-height: 1.55;
+      font-size: 13px;
+    }
+
+    .news-link {
+      display: inline-flex;
+      margin-top: 12px;
+      color: var(--mint);
+      font-weight: 850;
+    }
+
+    .status {
+      padding: 0 18px 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .calculator-lab {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .calculator-card {
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 18% 10%, rgba(255,209,102,0.13), transparent 30%),
+        linear-gradient(145deg, rgba(255,255,255,0.095), rgba(255,255,255,0.035));
+      box-shadow: var(--shadow), inset 0 0 48px rgba(95,252,241,0.035);
+      backdrop-filter: blur(18px);
+    }
+
+    .calculator-card h3 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    .calculator-card > p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    .field label {
+      color: #c8edf2;
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .field input, .field select {
+      width: 100%;
+      min-height: 44px;
+      padding: 0 12px;
+      border: 1px solid rgba(95,252,241,0.22);
+      border-radius: 13px;
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      outline: none;
+    }
+
+    .field input:focus, .field select:focus {
+      border-color: rgba(95,252,241,0.68);
+      box-shadow: 0 0 0 4px rgba(95,252,241,0.08);
+    }
+
+    .calc-results {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .result-tile {
+      min-height: 86px;
+      padding: 14px;
+      border: 1px solid rgba(130,255,183,0.2);
+      border-radius: 15px;
+      background: rgba(255,255,255,0.045);
+    }
+
+    .result-tile span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .result-tile strong {
+      display: block;
+      margin-top: 10px;
+      color: var(--cyan);
+      font-size: clamp(20px, 3vw, 30px);
+    }
+
+    .calc-note {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .arrear-years {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .arrear-row {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr 1fr 1fr 0.85fr auto;
+      gap: 10px;
+      align-items: end;
+      padding: 12px;
+      border: 1px solid rgba(95,252,241,0.16);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .icon-button {
+      width: 44px;
+      min-height: 44px;
+      border: 1px solid rgba(255,111,177,0.32);
+      border-radius: 13px;
+      color: #ffd9ea;
+      background: rgba(255,111,177,0.08);
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    }
+
+    .icon-button:hover, .icon-button:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(255,111,177,0.68);
+      box-shadow: 0 0 24px rgba(255,111,177,0.16);
+      outline: none;
+    }
+
+    .mini-breakdown {
+      margin-top: 12px;
+      color: #ccecf2;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .breakdown-panel {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+      padding: 14px;
+      border: 1px solid rgba(95,252,241,0.16);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .breakdown-panel h4 {
+      margin: 0;
+      color: var(--cyan);
+      font-size: 15px;
+    }
+
+    .working-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      color: #d9f6fb;
+      font-size: 13px;
+    }
+
+    .working-line:last-child { border-bottom: 0; }
+
+    .working-line span:first-child { color: var(--muted); }
+
+    .form10e-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .form10e-draft {
+      margin-top: 14px;
+      padding: 16px;
+      border: 1px solid rgba(255,209,102,0.24);
+      border-radius: 16px;
+      background: rgba(255,209,102,0.055);
+    }
+
+    .form10e-draft[hidden] { display: none; }
+
+    .form10e-draft h4 {
+      margin: 0 0 8px;
+      color: var(--amber);
+      font-size: 16px;
+    }
+
+    .form10e-draft p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 12px;
+    }
+
+    .form10e-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .form10e-table th,
+    .form10e-table td {
+      padding: 9px 10px;
+      border: 1px solid rgba(255,255,255,0.11);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .form10e-table th {
+      color: var(--cyan);
+      background: rgba(95,252,241,0.08);
+    }
+
+    .form10e-table td {
+      color: #e7fbff;
+      background: rgba(255,255,255,0.035);
+    }
+
+    .chart-bars {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .chart-bar {
+      display: grid;
+      grid-template-columns: 115px 1fr 92px;
+      gap: 10px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .bar-track {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--cyan), var(--mint));
+      width: var(--w, 0%);
+      transition: width 360ms ease;
+    }
+
+    .ai-explain {
+      margin-top: 12px;
+      padding: 14px;
+      border: 1px solid rgba(255,209,102,0.22);
+      border-radius: 16px;
+      color: #f4fbff;
+      background: rgba(255,209,102,0.055);
+      line-height: 1.55;
+      font-size: 13px;
+    }
+
+    .skeleton {
+      min-height: 278px;
+      border-radius: 18px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.05), rgba(95,252,241,0.13), rgba(255,255,255,0.05));
+      background-size: 220% 100%;
+      animation: shimmer 1.1s linear infinite;
+    }
+
+    @keyframes shimmer {
+      from { background-position: 220% 0; }
+      to { background-position: -220% 0; }
+    }
+
+    .ai-panel {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .ai-tile {
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.055);
+    }
+
+    .ai-tile strong {
+      display: block;
+      color: var(--cyan);
+      margin-bottom: 8px;
+    }
+
+    .ai-tile p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    footer {
+      padding: 28px 0 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .intro-popup {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 120;
+      width: min(460px, calc(100% - 28px));
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(16px) scale(0.98);
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .intro-popup.is-open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+    }
+
+    .intro-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 12px;
+      padding: 15px;
+      border: 1px solid rgba(95,252,241,0.34);
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(7, 25, 35, 0.97), rgba(10, 31, 40, 0.95));
+      box-shadow: 0 24px 80px rgba(0,0,0,0.48);
+      backdrop-filter: blur(18px);
+    }
+
+    .intro-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .intro-avatar-panel {
+      display: grid;
+      align-content: end;
+      justify-items: center;
+      gap: 7px;
+      padding-top: 26px;
+    }
+
+    .professional-avatar {
+      position: relative;
+      width: 76px;
+      height: 104px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,209,102,0.16), rgba(95,252,241,0.08));
+      border: 1px solid rgba(255,255,255,0.16);
+      overflow: hidden;
+      box-shadow: 0 12px 34px rgba(0,0,0,0.34);
+      animation: chatNod 2.4s infinite ease-in-out;
+    }
+
+    .professional-avatar img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 18%;
+    }
+
+    .avatar-halo {
+      position: absolute;
+      inset: 5px 7px auto;
+      height: 52px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(130,255,183,0.24), transparent 68%);
+    }
+
+    .avatar-head {
+      position: absolute;
+      left: 50%;
+      top: 17px;
+      width: 34px;
+      height: 38px;
+      border-radius: 44% 44% 46% 46%;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, #e0a677, #bd7a54);
+      box-shadow: inset 0 -7px 10px rgba(81, 45, 33, 0.16);
+    }
+
+    .avatar-hair {
+      position: absolute;
+      left: 50%;
+      top: 11px;
+      width: 40px;
+      height: 23px;
+      border-radius: 22px 22px 12px 12px;
+      transform: translateX(-50%);
+      background: radial-gradient(circle at 38% 25%, #283241, #080b10 70%);
+      box-shadow: 0 5px 0 rgba(8,11,16,0.88);
+    }
+
+    .avatar-face {
+      position: absolute;
+      left: 50%;
+      top: 39px;
+      width: 21px;
+      height: 10px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      border-bottom: 2px solid rgba(78, 37, 31, 0.48);
+    }
+
+    .avatar-body {
+      position: absolute;
+      left: 50%;
+      bottom: -4px;
+      width: 58px;
+      height: 39px;
+      transform: translateX(-50%);
+      border-radius: 23px 23px 9px 9px;
+      background: linear-gradient(135deg, #11151b, #05080c);
+      border: 1px solid rgba(95,252,241,0.18);
+    }
+
+    .avatar-shirt {
+      position: absolute;
+      left: 50%;
+      bottom: 1px;
+      width: 23px;
+      height: 31px;
+      transform: translateX(-50%);
+      clip-path: polygon(0 0, 100% 0, 78% 100%, 22% 100%);
+      background: #101216;
+      border-left: 1px solid rgba(255,255,255,0.12);
+      border-right: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .avatar-tie { display: none; }
+
+    .avatar-badge {
+      color: var(--mint);
+      font-size: 11px;
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .intro-copy {
+      padding: 0 25px 0 0;
+    }
+
+    .intro-copy h2 {
+      margin: 0 0 9px;
+      color: var(--cyan);
+      font-size: 15px;
+      line-height: 1.15;
+    }
+
+    .chat-stack {
+      display: grid;
+      gap: 8px;
+    }
+
+    .small-bubble {
+      width: fit-content;
+      max-width: 100%;
+      margin: 0;
+      padding: 9px 11px;
+      border-radius: 14px;
+      color: #eaffff;
+      background: rgba(7, 25, 35, 0.94);
+      border: 1px solid rgba(95,252,241,0.2);
+      font-size: 13px;
+      line-height: 1.42;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: chatBubbleIn 4.8s infinite ease;
+    }
+
+    .small-bubble:nth-child(2) {
+      animation-delay: 850ms;
+      background: rgba(117, 167, 255, 0.14);
+    }
+
+    .small-bubble:nth-child(3) {
+      animation-delay: 1700ms;
+      background: rgba(130, 255, 183, 0.11);
+    }
+
+    .small-bubble:nth-child(4) {
+      animation-delay: 2550ms;
+      background: rgba(255, 209, 102, 0.11);
+    }
+
+    .intro-details { display: none; }
+
+    .intro-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .intro-actions .glow-button {
+      min-height: 36px;
+      padding: 8px 11px;
+      font-size: 12px;
+    }
+
+
+    .intro-card.is-guided {
+      grid-template-columns: 64px minmax(0, 1fr);
+      max-height: min(640px, calc(100vh - 34px));
+    }
+
+    .intro-card.is-guided .intro-avatar-panel {
+      align-content: start;
+      padding-top: 28px;
+    }
+
+    .intro-card.is-guided .professional-avatar {
+      width: 62px;
+      height: 86px;
+    }
+
+    .chat-log {
+      display: grid;
+      gap: 8px;
+      max-height: 310px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .chat-entry {
+      width: fit-content;
+      max-width: 100%;
+      margin: 0;
+      padding: 9px 11px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.42;
+      border: 1px solid rgba(95,252,241,0.2);
+    }
+
+    .chat-entry.bot {
+      color: #eaffff;
+      background: rgba(7, 25, 35, 0.94);
+    }
+
+    .chat-entry.user {
+      justify-self: end;
+      color: #ecfff4;
+      background: rgba(130,255,183,0.13);
+      border-color: rgba(130,255,183,0.28);
+    }
+
+    .chat-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 8px;
+    }
+
+    .chat-option {
+      min-height: 32px;
+      border: 1px solid rgba(95,252,241,0.26);
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: #eaffff;
+      background: rgba(95,252,241,0.08);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .chat-option:hover,
+    .chat-option:focus-visible {
+      border-color: rgba(130,255,183,0.72);
+      outline: none;
+    }
+
+    .chat-answer-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .chat-answer-row[hidden] { display: none; }
+
+    .chat-answer-row input {
+      min-height: 38px;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 12px;
+      padding: 9px 11px;
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      outline: none;
+    }
+
+    .chat-answer-row button {
+      min-height: 38px;
+      border: 1px solid rgba(95,252,241,0.28);
+      border-radius: 12px;
+      padding: 8px 11px;
+      color: var(--text);
+      background: rgba(95,252,241,0.1);
+      font-weight: 850;
+      cursor: pointer;
+    }
+    @keyframes chatBubbleIn {
+      0%, 14% { opacity: 0; transform: translateY(8px); }
+      26%, 100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes chatNod {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(2deg) translateY(2px); }
+    }
+    @media print {
+      @page { margin: 14mm; }
+
+      body.print-tax,
+      body.print-89 {
+        background: #ffffff !important;
+        color: #111111 !important;
+      }
+
+      body.print-tax *,
+      body.print-89 * {
+        visibility: hidden !important;
+        animation: none !important;
+        transition: none !important;
+        box-shadow: none !important;
+      }
+
+      body.print-tax #taxCalculatorCard,
+      body.print-tax #taxCalculatorCard *,
+      body.print-89 #section89CalculatorCard,
+      body.print-89 #section89CalculatorCard * {
+        visibility: visible !important;
+      }
+
+      body.print-tax #taxCalculatorCard,
+      body.print-89 #section89CalculatorCard {
+        position: absolute;
+        inset: 0 auto auto 0;
+        width: 100% !important;
+        min-height: auto;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: #ffffff !important;
+        color: #111111 !important;
+      }
+
+      body.print-tax #printTaxWorking,
+      body.print-89 #print89Working,
+      body.print-tax .intro-popup,
+      body.print-89 .intro-popup,
+      body.print-tax .chart-bars,
+      body.print-89 .chart-bars {
+        display: none !important;
+      }
+
+      body.print-tax .calculator-card h3,
+      body.print-89 .calculator-card h3 {
+        color: #111111 !important;
+        font-size: 24px !important;
+        margin-bottom: 8px !important;
+      }
+
+      body.print-tax .calculator-card > p,
+      body.print-89 .calculator-card > p,
+      body.print-tax .calc-note,
+      body.print-89 .calc-note,
+      body.print-tax .ai-explain,
+      body.print-89 .ai-explain {
+        color: #333333 !important;
+      }
+
+      body.print-tax .field,
+      body.print-89 .field,
+      body.print-tax .result-tile,
+      body.print-89 .result-tile,
+      body.print-tax .breakdown-panel,
+      body.print-89 .breakdown-panel,
+      body.print-tax .mini-breakdown,
+      body.print-89 .mini-breakdown,
+      body.print-tax .ai-explain,
+      body.print-89 .ai-explain {
+        border: 1px solid #d0d7de !important;
+        background: #ffffff !important;
+        color: #111111 !important;
+      }
+
+      body.print-tax input,
+      body.print-tax select,
+      body.print-89 input,
+      body.print-89 select {
+        border: 1px solid #b8c0c8 !important;
+        background: #ffffff !important;
+        color: #111111 !important;
+      }
+
+      body.print-tax .working-line,
+      body.print-89 .working-line {
+        color: #111111 !important;
+        border-bottom: 1px dashed #c7cdd4 !important;
+      }
+
+      body.print-tax .working-line strong,
+      body.print-89 .working-line strong,
+      body.print-tax .result-tile strong,
+      body.print-89 .result-tile strong,
+      body.print-tax .breakdown-panel h4,
+      body.print-89 .breakdown-panel h4 {
+        color: #000000 !important;
+      }
+    }
+    @media print {
+      body.print-form10e {
+        background: #ffffff !important;
+        color: #111111 !important;
+      }
+
+      body.print-form10e * {
+        visibility: hidden !important;
+        animation: none !important;
+        transition: none !important;
+        box-shadow: none !important;
+      }
+
+      body.print-form10e #form10eDraft,
+      body.print-form10e #form10eDraft * {
+        visibility: visible !important;
+      }
+
+      body.print-form10e #form10eDraft {
+        display: block !important;
+        position: absolute;
+        inset: 0 auto auto 0;
+        width: 100% !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: #ffffff !important;
+        color: #111111 !important;
+      }
+
+      body.print-form10e #form10eDraft h4,
+      body.print-form10e #form10eDraft th,
+      body.print-form10e #form10eDraft td,
+      body.print-form10e #form10eDraft p,
+      body.print-form10e #form10eDraft strong {
+        color: #111111 !important;
+      }
+
+      body.print-form10e .form10e-table th,
+      body.print-form10e .form10e-table td {
+        border: 1px solid #b8c0c8 !important;
+        background: #ffffff !important;
+      }
+    }
+@media (max-width: 980px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .resource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .news-grid, .ai-panel, .calculator-lab { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .bank-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .section-head { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (max-width: 660px) {
+      .shell { width: min(100% - 22px, 1180px); padding-top: 12px; }
+      .topbar { align-items: flex-start; border-radius: 22px; flex-direction: column; position: static; }
+      .nav { justify-content: flex-start; }
+      .hero { padding-top: 34px; }
+      .holo-device { min-height: 360px; }
+      .metric-grid, .resource-grid, .news-grid, .ai-panel, .bank-strip, .calculator-lab, .calc-grid, .calc-results { grid-template-columns: 1fr; }
+      .arrear-row { grid-template-columns: 1fr; }
+      .icon-button { width: 100%; }
+      .news-tools { grid-template-columns: 1fr; }
+      .filter { flex: 1 1 auto; }
+      .intro-popup { right: 12px; bottom: 12px; width: calc(100% - 24px); }
+      .intro-card { grid-template-columns: 60px minmax(0, 1fr); padding: 13px; }
+      .intro-avatar-panel { padding-top: 24px; }
+      .professional-avatar { width: 64px; height: 88px; }
+      .intro-copy { padding-right: 22px; }
+      .small-bubble { font-size: 12px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "FIN.ANS Tax & Compliance Calculator Portal",
+      "description": "Official Indian tax and compliance resource links with income tax and Section 89 calculators.",
+      "inLanguage": "en-IN"
+    }
+  </script>
+</head>
+<body>
+  <div class="particle-field" aria-hidden="true"></div>
+  <div class="intro-popup" id="introPopup" role="dialog" aria-modal="false" aria-labelledby="introPopupTitle" aria-describedby="introPopupText">
+    <div class="intro-card" role="document">
+      <button class="intro-close" id="closeIntroPopup" type="button" aria-label="Close chat message">X</button>
+      <div class="intro-avatar-panel" aria-label="Fin.ans Guide tax assistant avatar">
+        <div class="professional-avatar">
+          <img src="data:image/webp;base64,UklGRkgKAABXRUJQVlA4IDwKAACQSACdASrIACwBPmEuk0gkIiGvodbYsfAMCWlu4DNqWqoavs6vlK/qSn26e4+3iLeXcgxgAzbQtZR4ejlo91DP1c3zP9gAqq4KHm2WNLBIo4h1IEyjg+g1AhKec2FyzpGW02T3E8qYNQYCLPdeCfeD+Gnb4DDtUhwz5ET3/cFeDjJrgFc5ZHrP3PnRZWwgKcJdfHaBd25iXBh07CVTWIf4d93qDIKZ1FUfyLkwwRRm+RNEldZiIiyUlPtcbeGMa7l8YmFkW9Udg642t+uQ75C5iMfkZVXgdFFE341Orci2P6vqGiBwSQWajwfHwA3uDKbWLgsWQ78nMsh4+Hj4Rf0m1U4CyyEzzWhQCU1Zo4wMBZL9/F61UogzshGdlK28eHVZ2/BdeVcXyZ7A/Dt5oqblBk7Q/cfXdQbbA/lzNtfofvxKCo+jJjat0cTbYHk6C7RjlKPhUCw8mJ5+IvQyP/ynosHbykvplFtqWzPrHgkEsc2PCPIWyyNzaLzAEyK4uNDyLUHRg/BpOHR1fu781/MMEFQOzVGxfTpeybtOAMxRL1v+9WrWQj8pyciQNzcXFv3qw0G4F454hyUQYawPCSgM0hNahSi1Rkjd3Zfs7KZ05/HjAED9Bm/f54F9bVmk1+MAzoZsCT6wtYKKp8WtTqt2OCqePkEiXoETQhOGJF+Efu6bQKNpjZNhSSZeqOQAgjeTkKWHXpPs3Y12R0qsnI/Y8assRaFnLp6yJjJNSNxek2xQRhJ29uar00AFM7BznENmlC1bMCJ5iU7l5tUAAP71V6KAgdcpiR1iRHzoWG3DBdUvQWs4bbnyI+aJkd35orZJRyKpOy2nhZErD/2eodHorV494n6QdEkDyyptFZiG90C79cSXNKzLueZf+e1tcB0h6v3zZ6gE5U64b1LRKKCRO5YWKEE3cedDdWOAnuXGg4xLXuaiRUD7LgDJOOPRUmQpdFVlRSIyRc65OZVQn78I5mN3wkwEXM54DCArlqNOPCcMpdkxuTTThEc5Wja+8zgrIza9JerQaHGTOy5K5UKFZawi8HqJ0/mNKP0gfeVXE7/csxzEeq8BSa1orcUzkg6Q/4lR/yzyvdPdFRzql/o9+9eULAJzxr/NWBWv93p2M+DjfRf+VBRJ653/03S+YeWkiMUY/7xg1LOS3FvgdtYctgUMMjpYNZvFZt7MWBaSAiXxQh7COgmj+CSZCKlhOxEXBMLiVcuK55kWj4hBXZJ/1kF0rDO+I0wAz/5Eqx+4BIWi6ekCNC5XLxN3hfxVeqDaMQ9498eDifbyxbVEYanMAW6psMjJzALK0AgU0qsgg1S3OqY3/Hkvfe878No13JQp1woVLldxhNw5IFeNwBHz/zJgQurPyNUsQVC1+qdlI36UFf6lRyaQs9mIcmZLzmo9ow/1XJxwnkv7fbV5v6hA3vPGaK4tkb8GJZuRnTed3QQ0QCwT1ujIWTW3AlLQBay5dBAHlXzdDyfLw8kBPed8LhBYFHMfgl0DXmZyRAF3oWAuzOehbuxQknxEiqoFwcLcwQAbtjvyNck+r9Cp84bZYQPEakLPdmmPshsFJm31+JF20lt7LzifPc8LCSNCRLw0Sky7Gfdd+StR4gwVALN+6nApTELbzoI1A8nEpfc7oLrYfcebl7nFYJOJ43R4LdK1uC+Y1Io4cjCk1hR8hBRHUj2nz7nHg99YxVtPgbUHSaDCgGxYX8c01BUk0vTkwdheA4o/JIDhGNOKay3j8IFdo8RYepa+pHh32oXXexxh8cYyqzna2thXVVVwwTBQg+xGm70ZqX5OsagRyE+hiDRSDcK+dQmwmYnAlskBVK19pAMBNY66k4/T6CfTvU/kAOlKEVmR3XZzv/Sm/uXPFvtLHVnam8I9H59wZxxH+NUXc4eeTpUEMfXjS9p7RqJP/zuSf2CESEM2Oos/HYpP4NzOBUVsd1JFtr6q5S5xWT3n5VZLEOLpm+GclsPJZcZjfTAySt+5BWYcRfH3tWjRIKgykInBIEifA96fMpahIlkyKCfsKuT27HnxbLIHK5z6T8i6+j8JiUieVcAfrUqtgOsL9HStDwl5lCKeILCcVFryFMq4LrJZGxt7IRBizyumDxNU1t1OaxeKgguDuwpkOLVUMCzJwjy5EfLkGG/rsHzvQYe5n5p79DJLn9/JHYnxFSP89ZD5lVnanx06rCScG+atOm3XO4ZER4le9qVq9tFqnLQdGbstHxp+RJfDSuRDNv2sUWimJLYHNatkCmZWWUYlknIKN11Xl69prma2Fagme4ao4Y/I54jzEAsKM+yFZGxXR6772IP0mn1Rhq2Kz/ECTrUVls7/dNhATYQCLQB/pjwDYql4ave96FLIN8vPiID6YnlU1OO3xHoaoaX0jGo1DhcsjAIry8QGdzpxuvByNV0kFIIfdWikIgYEs31ry535JcQUC2FdWe1Imrh8zJibtlp999zF6krx0qM7rsd06Nbol+9VUNPQpzzJSf8cdt3Vf4J9COc+gZzODzIBh82s0FeAt55pcdJ7qt8dmubOPk2gc4Sxp9fR3ELlZc9v7MzMVcw+rlpVqRXGMj6dhNQkNYUm52FYrDvEUIsN7iWOoYoohkvnlxQSOzPfzu2k7JAXts+SY7DFdamfGSIohLRzhl/BNKPNEB3E/O4WLU6rMKwjlvZOXT9JP2KUfdBupYsP3tQ3webo1eziuGbV+r6Ju+HMii5li4BjcS2qVvl56Bj3AsWRy4uyEWRKzmifB9Puc8RRlu4ri1sjn5G7oCr5qXDT2fswcK38x/Fh7ZnmXEZOt6nF6cX6u+BhwMT4FdFB4Uh2TkCw1Z0Ff4hkrmilU2pjkRIqQG1x97k3Dbt6B3vXR+NqmLc6znN/DAfHX4f1zCF+0JlwSpNFaNz5IsCRvCDe7dtMIRNACVwow3qwdR6DfgipOXd0JILhCqNNojA27NBy8bb2eF8I6bhgunnhPxP4/mv4bXirGOJJAy0rX1eEqgZIGmSCXskHk/jo34Znv6vO0LfMGcd4pMeB2NSuoswZwbwg8xD6YC7Q4xK9QaXW3bpIw5ybTfTt+hCOGFUAH2DOwKqCqH4lKZc/Gnf92NfXvwxsP+tGY0sPx9yujal2HkqHq3LK6GuwAiZdXXgto39DbjEJo5IgsA9LalwIetuMg9iSSKbxgwXdtD0hZWMq+dS7/wv3NJLko7YyswFQNZ3ZxqTO3njy/TicxCW8DHWNTID6M3RADFFgs98p9JzvN3JdP1WuJI0Ri/x4q/yFgV+pNsnSyzoTvBM558PrD5/4mY/qKN14OOmxQoUKsRTxnQ7HAti89jCxOIQ90rlJ4BvXeV3aIW5C/ahShHwoPRW0XI+JaP1uOQhty0DwPGRmcQ2My+DNkcDSXcQfLulM4jxbGfda5aHHr9umBa05uh/w5fN6Xjh7IbS01YApNi7y/8jt/yaD1foTDDQZP9PK4jdSPOlkfYUiYvc4OABsvl6pm4JizZyoAAAA" alt="Fin.ans Guide" />
+        </div>
+        <span class="avatar-badge">Fin.ans Guide</span>
+      </div>
+      <div class="intro-copy">
+        <h2 id="introPopupTitle">Chat Help</h2>
+        <div class="chat-log" id="chatLog" aria-live="polite"></div>
+        <div class="chat-answer-row" id="chatAnswerRow" hidden>
+          <input id="chatAnswer" type="text" autocomplete="off" inputmode="decimal" placeholder="Type your answer" />
+          <button id="sendChatAnswer" type="button">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <main class="shell">
+    <nav class="topbar" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="FIN.ANS home">
+        <span class="brand-mark">F</span>
+        <span>FIN.ANS</span>
+      </a>
+      <div class="nav">
+        <a href="#official">Official Resources</a>
+        <a href="#calculators">Tax Calculators</a>
+        <button id="openIntroPopup" type="button">Chat Help</button>
+      </div>
+    </nav>
+
+    <header class="hero" id="top">
+      <div>
+        <span class="eyebrow">Tax & Compliance Command Portal</span>
+        <h1>FIN.ANS</h1>
+        <p>
+          A focused Indian tax and compliance workspace with official portal links,
+          financial-year wise income tax calculation, and multi-year Section 89
+          arrears relief built for payroll and return-filing workflows.
+        </p>
+        <div class="hero-actions">
+          <a class="glow-button primary" href="#official">Launch official links</a>
+          <a class="glow-button" href="#calculators">Use tax tools</a>
+        </div>
+      </div>
+      <div class="holo-device tilt-card" aria-label="Platform intelligence snapshot">
+        <div class="device-inner">
+          <div class="metric-grid">
+            <div class="metric"><span>Official portals</span><strong>5</strong></div>
+            <div class="metric"><span>Tax calculators</span><strong>2</strong></div>
+            <div class="metric"><span>Financial years</span><strong>7</strong></div>
+            <div class="metric"><span>Arrear years</span><strong>Multi</strong></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section id="official" aria-labelledby="official-title">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Verified destination grid</span>
+          <h2 id="official-title">Official Resources</h2>
+        </div>
+        <p>Premium glass cards open the selected official tax, provident fund, insurance, PAN/TAN, and TDS portals in a new tab.</p>
+      </div>
+      <div class="resource-grid" id="resourceGrid"></div>
+      <div class="bank-strip" id="bankStrip" aria-label="Major Indian bank quick links"></div>
+    </section>
+
+    <section id="calculators" aria-labelledby="calculators-title">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Smart tax utility layer</span>
+          <h2 id="calculators-title">Income Tax & Section 89 Calculators</h2>
+        </div>
+        <p>Year-wise Indian tax estimates from FY 2019-20 onward, including regime comparison, 87A rebate, marginal relief, surcharge, cess, and arrears relief under Section 89.</p>
+      </div>
+
+      <div class="calculator-lab">
+        <article class="calculator-card tilt-card" id="taxCalculatorCard">
+          <h3>Income Tax Calculator</h3>
+          <p>Estimate individual resident tax by financial year. The selected FY controls the slab, standard deduction, rebate, and marginal-relief rule used.</p>
+          <div class="calc-grid">
+            <div class="field">
+              <label for="taxYear">Financial year</label>
+              <select id="taxYear"></select>
+            </div>
+            <div class="field">
+              <label for="grossIncome">Annual gross income</label>
+              <input id="grossIncome" type="number" min="0" step="1000" value="1275000" />
+            </div>
+            <div class="field">
+              <label for="deductions">Old-regime deductions</label>
+              <input id="deductions" type="number" min="0" step="1000" value="150000" />
+            </div>
+            <div class="field">
+              <label for="ageBand">Age category</label>
+              <select id="ageBand">
+                <option value="regular">Below 60</option>
+                <option value="senior">60 to 79</option>
+                <option value="super">80 and above</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="salaryType">Salary standard deduction</label>
+              <select id="salaryType">
+                <option value="salaried">Salaried / pensioner</option>
+                <option value="other">Not applicable</option>
+              </select>
+            </div>
+          </div>
+          <div class="calc-results">
+            <div class="result-tile"><span>New regime tax</span><strong id="newTaxResult">Rs 0</strong></div>
+            <div class="result-tile"><span>Old regime tax</span><strong id="oldTaxResult">Rs 0</strong></div>
+            <div class="result-tile"><span>Suggested regime</span><strong id="bestRegimeResult">New</strong></div>
+            <div class="result-tile"><span>Estimated saving</span><strong id="savingResult">Rs 0</strong></div>
+          </div>
+          <div class="breakdown-panel">
+            <h4>CA-style computation</h4>
+            <div id="taxBreakdown"></div>
+            <div class="chart-bars" id="taxChart"></div>
+          </div>
+          <div class="ai-explain" id="taxExplanation">Why this tax amount was calculated will appear here.</div>
+          <button class="glow-button" id="printTaxWorking" type="button">Export working sheet / PDF</button>
+          <div class="calc-note" id="taxNote">Excludes surcharge, special-rate capital gains, business provisions, and state-specific professional tax.</div>
+        </article>
+
+        <article class="calculator-card tilt-card" id="section89CalculatorCard">
+          <h3>Section 89 Relief Calculator</h3>
+          <p>Estimate relief for salary arrears/advance across one or more past years by comparing extra tax now with year-wise extra tax then.</p>
+          <div class="calc-grid">
+            <div class="field">
+              <label for="currentFy89">Current financial year</label>
+              <select id="currentFy89"></select>
+            </div>
+            <div class="field">
+              <label for="currentNormal">Current year taxable income excluding arrears</label>
+              <input id="currentNormal" type="number" min="0" step="1000" value="900000" />
+            </div>
+            <div class="field">
+              <label for="arrearsReceived">Total arrears received this year</label>
+              <input id="arrearsReceived" type="number" min="0" step="1000" value="300000" />
+            </div>
+            <div class="field">
+              <label for="currentTaxPaid89">Tax already paid/current TDS</label>
+              <input id="currentTaxPaid89" type="number" min="0" step="1000" value="0" />
+            </div>
+            <div class="field">
+              <label for="currentRegime89">Current year regime</label>
+              <select id="currentRegime89">
+                <option value="new">New regime</option>
+                <option value="old">Old regime</option>
+              </select>
+            </div>
+            <button class="glow-button" id="addArrearYear" type="button">Add previous year</button>
+          </div>
+          <div class="arrear-years" id="arrearYears" aria-label="Past financial year arrear rows"></div>
+          <div class="calc-results">
+            <div class="result-tile"><span>Extra tax now</span><strong id="extraNowResult">Rs 0</strong></div>
+            <div class="result-tile"><span>Total extra tax then</span><strong id="extraThenResult">Rs 0</strong></div>
+            <div class="result-tile"><span>Section 89 relief</span><strong id="relief89Result">Rs 0</strong></div>
+            <div class="result-tile"><span>Tax after relief</span><strong id="afterReliefResult">Rs 0</strong></div>
+          </div>
+          <div class="mini-breakdown" id="arrearBreakdown">Year-wise arrear calculation will appear here.</div>
+          <div class="breakdown-panel">
+            <h4>Section 89 working sheet</h4>
+            <div id="section89Working"></div>
+          </div>
+          <div class="ai-explain" id="section89Explanation">Section 89 explanation will appear here.</div>
+          <div class="form10e-actions">
+            <button class="glow-button" id="print89Working" type="button">Export Section 89 working / PDF</button>
+            <button class="glow-button" id="viewForm10E" type="button">View Form 10E draft</button>
+            <button class="glow-button primary" id="printForm10E" type="button">Create Form 10E PDF</button>
+          </div>
+          <div class="form10e-draft" id="form10eDraft" hidden></div>
+          <div class="calc-note">Use official Form 10E before claiming Section 89 relief. This quick estimator creates a draft working view only and does not replace e-filing on the Income Tax portal.</div>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      FIN.ANS is a tax and compliance calculator interface. Verify legal, tax, and payroll decisions with official notices and qualified professionals.
+    </footer>
+  </main>
+
+  <script>
+    const officialResources = [
+      ["Income Tax Portal", "https://www.incometax.gov.in/iec/foportal/", "ITR filing, AIS, notices, e-proceedings", "IT"],
+      ["EPFO", "https://www.epfindia.gov.in/", "Provident fund, UAN, employer services", "EPF"],
+      ["ESIC", "https://www.esic.gov.in/", "Employee insurance services and compliance", "ESIC"],
+      ["NSDL", "https://www.protean-tinpan.com/", "PAN, TAN, TIN and tax infrastructure services", "NSDL"],
+      ["TRACES", "https://www.tdscpc.gov.in/", "TDS reconciliation, Form 16, Form 26AS", "TDS"]
+    ];
+
+    const banks = [];
+
+    const feeds = [
+      { name: "RBI Website", category: "RBI", url: "https://www.rbi.org.in/pressreleases_rss.xml" },
+      { name: "RBI Website", category: "RBI", url: "https://www.rbi.org.in/notifications_rss.xml" },
+      { name: "SEBI", category: "Markets", url: "https://www.sebi.gov.in/sebirss.xml" },
+      { name: "Income Tax Department", category: "Tax", url: "https://www.incometaxindia.gov.in/press-release-rss-feed/-/asset_publisher/bxhj/rss" },
+      { name: "Economic Times", category: "Economy", url: "https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms" },
+      { name: "Business Standard", category: "Economy", url: "https://www.business-standard.com/rss/finance-103.rss" },
+      { name: "Financial Express", category: "Economy", url: "https://www.financialexpress.com/market/feed/" },
+      { name: "LiveMint", category: "Markets", url: "https://www.livemint.com/rss/markets" },
+      { name: "Moneycontrol", category: "Markets", url: "https://www.moneycontrol.com/rss/MCtopnews.xml" },
+      { name: "GST News", category: "GST", url: "https://news.google.com/rss/search?q=GST%20India%20tax%20when:7d&hl=en-IN&gl=IN&ceid=IN:en" },
+      { name: "CBIC Updates", category: "GST", url: "https://news.google.com/rss/search?q=CBIC%20GST%20customs%20when:7d&hl=en-IN&gl=IN&ceid=IN:en" },
+      { name: "Banking India", category: "Banking", url: "https://news.google.com/rss/search?q=India%20banking%20RBI%20finance%20when:7d&hl=en-IN&gl=IN&ceid=IN:en" },
+      { name: "Stock Market India", category: "Markets", url: "https://news.google.com/rss/search?q=India%20stock%20market%20SEBI%20NSE%20BSE%20when:7d&hl=en-IN&gl=IN&ceid=IN:en" }
+    ];
+
+    const fallbackNews = [
+      {
+        title: "RBI policy and banking updates are loading from official feeds",
+        link: "https://www.rbi.org.in/Scripts/rss.aspx",
+        source: "RBI Website",
+        category: "RBI",
+        pubDate: new Date().toISOString(),
+        description: "The dashboard uses official RBI RSS feeds with local caching so users still see recent data during temporary network restrictions."
+      },
+      {
+        title: "SEBI circulars and market notices are configured through the official RSS feed",
+        link: "https://www.sebi.gov.in/rss.html",
+        source: "SEBI",
+        category: "Markets",
+        pubDate: new Date().toISOString(),
+        description: "Capital market updates are fetched from SEBI and trusted business publications, then summarized into impact notes."
+      },
+      {
+        title: "Income tax and GST headlines appear with source and publication date",
+        link: "https://www.incometaxindia.gov.in/tax-feeds",
+        source: "Income Tax Department",
+        category: "Tax",
+        pubDate: new Date().toISOString(),
+        description: "Tax news cards include AI-style summaries, why-it-matters notes, and related article suggestions."
+      }
+    ];
+
+    const categories = ["All", "RBI", "Banking", "Tax", "GST", "Markets", "Economy"];
+    const cacheKey = "finans-news-cache-v1";
+    let allNews = [];
+    let activeCategory = "All";
+    let query = "";
+
+    const resourceGrid = document.getElementById("resourceGrid");
+    const bankStrip = document.getElementById("bankStrip");
+    const filters = document.getElementById("filters");
+    const newsGrid = document.getElementById("newsGrid");
+    const ticker = document.getElementById("ticker");
+    const status = document.getElementById("newsStatus");
+    let arrearYearId = 0;
+    const defaultArrearYears = [
+      { fy: "2023-24", normal: 650000, arrears: 180000, taxPaid: 0, regime: "old" },
+      { fy: "2024-25", normal: 780000, arrears: 120000, taxPaid: 0, regime: "new" }
+    ];
+
+    const commonOldRegime = {
+      available: true,
+      standardDeduction: 50000,
+      exemption: { regular: 250000, senior: 300000, super: 500000 },
+      slabs: [
+        { upto: 250000, rate: 0 },
+        { upto: 500000, rate: 0.05 },
+        { upto: 1000000, rate: 0.20 },
+        { upto: Infinity, rate: 0.30 }
+      ],
+      rebate: { limit: 500000, amount: 12500, marginalRelief: true }
+    };
+
+    const legacyNewRegime = {
+      available: true,
+      standardDeduction: 0,
+      exemption: { regular: 250000, senior: 250000, super: 250000 },
+      slabs: [
+        { upto: 250000, rate: 0 },
+        { upto: 500000, rate: 0.05 },
+        { upto: 750000, rate: 0.10 },
+        { upto: 1000000, rate: 0.15 },
+        { upto: 1250000, rate: 0.20 },
+        { upto: 1500000, rate: 0.25 },
+        { upto: Infinity, rate: 0.30 }
+      ],
+      rebate: { limit: 500000, amount: 12500, marginalRelief: false }
+    };
+
+    const taxRules = {
+      "2025-26": {
+        label: "FY 2025-26 / AY 2026-27",
+        ay: "AY 2026-27",
+        cess: 0.04,
+        surcharge: { oldCap: 0.37, newCap: 0.25 },
+        regimes: {
+          old: commonOldRegime,
+          new: {
+            available: true,
+            standardDeduction: 75000,
+            exemption: { regular: 400000, senior: 400000, super: 400000 },
+            slabs: [
+              { upto: 400000, rate: 0 },
+              { upto: 800000, rate: 0.05 },
+              { upto: 1200000, rate: 0.10 },
+              { upto: 1600000, rate: 0.15 },
+              { upto: 2000000, rate: 0.20 },
+              { upto: 2400000, rate: 0.25 },
+              { upto: Infinity, rate: 0.30 }
+            ],
+            rebate: { limit: 1200000, amount: 60000, marginalRelief: true }
+          }
+        }
+      },
+      "2024-25": {
+        label: "FY 2024-25 / AY 2025-26",
+        ay: "AY 2025-26",
+        cess: 0.04,
+        surcharge: { oldCap: 0.37, newCap: 0.25 },
+        regimes: {
+          old: commonOldRegime,
+          new: {
+            available: true,
+            standardDeduction: 75000,
+            exemption: { regular: 300000, senior: 300000, super: 300000 },
+            slabs: [
+              { upto: 300000, rate: 0 },
+              { upto: 700000, rate: 0.05 },
+              { upto: 1000000, rate: 0.10 },
+              { upto: 1200000, rate: 0.15 },
+              { upto: 1500000, rate: 0.20 },
+              { upto: Infinity, rate: 0.30 }
+            ],
+            rebate: { limit: 700000, amount: 20000, marginalRelief: true }
+          }
+        }
+      },
+      "2023-24": {
+        label: "FY 2023-24 / AY 2024-25",
+        ay: "AY 2024-25",
+        cess: 0.04,
+        surcharge: { oldCap: 0.37, newCap: 0.25 },
+        regimes: {
+          old: commonOldRegime,
+          new: {
+            available: true,
+            standardDeduction: 50000,
+            exemption: { regular: 300000, senior: 300000, super: 300000 },
+            slabs: [
+              { upto: 300000, rate: 0 },
+              { upto: 600000, rate: 0.05 },
+              { upto: 900000, rate: 0.10 },
+              { upto: 1200000, rate: 0.15 },
+              { upto: 1500000, rate: 0.20 },
+              { upto: Infinity, rate: 0.30 }
+            ],
+            rebate: { limit: 700000, amount: 25000, marginalRelief: true }
+          }
+        }
+      },
+      "2022-23": {
+        label: "FY 2022-23 / AY 2023-24",
+        ay: "AY 2023-24",
+        cess: 0.04,
+        surcharge: { oldCap: 0.37, newCap: 0.37 },
+        regimes: { old: commonOldRegime, new: legacyNewRegime }
+      },
+      "2021-22": {
+        label: "FY 2021-22 / AY 2022-23",
+        ay: "AY 2022-23",
+        cess: 0.04,
+        surcharge: { oldCap: 0.37, newCap: 0.37 },
+        regimes: { old: commonOldRegime, new: legacyNewRegime }
+      },
+      "2020-21": {
+        label: "FY 2020-21 / AY 2021-22",
+        ay: "AY 2021-22",
+        cess: 0.04,
+        surcharge: { oldCap: 0.37, newCap: 0.37 },
+        regimes: { old: commonOldRegime, new: legacyNewRegime }
+      },
+      "2019-20": {
+        label: "FY 2019-20 / AY 2020-21",
+        ay: "AY 2020-21",
+        cess: 0.04,
+        surcharge: { oldCap: 0.37, newCap: 0 },
+        regimes: { old: commonOldRegime, new: { available: false } }
+      }
+    };
+
+    const taxYearOrder = Object.keys(taxRules);
+
+    function money(value) {
+      if (!Number.isFinite(value)) return "Not available";
+      return "Rs " + Math.round(Math.max(0, value || 0)).toLocaleString("en-IN");
+    }
+
+    function formatPercent(rate) {
+      return `${Math.round(rate * 100)}%`;
+    }
+
+    function formatTax(value) {
+      return Number.isFinite(value) ? money(value) : "Not available";
+    }
+
+    function currentRule(fy) {
+      return taxRules[fy] || taxRules["2025-26"];
+    }
+
+    function surchargeRate(taxableIncome, regime, rule) {
+      const cap = regime === "new" ? rule.surcharge.newCap : rule.surcharge.oldCap;
+      if (taxableIncome > 50000000) return Math.min(0.37, cap);
+      if (taxableIncome > 20000000) return Math.min(0.25, cap);
+      if (taxableIncome > 10000000) return Math.min(0.15, cap);
+      if (taxableIncome > 5000000) return Math.min(0.10, cap);
+      return 0;
+    }
+
+    function slabComputation(taxableIncome, slabs) {
+      let previous = 0;
+      let grossTax = 0;
+      const lines = [];
+      slabs.forEach(slab => {
+        const upper = slab.upto;
+        const slabIncome = Math.max(0, Math.min(taxableIncome, upper) - previous);
+        const tax = slabIncome * slab.rate;
+        if (slabIncome > 0 || slab.rate === 0) {
+          lines.push({
+            label: upper === Infinity ? `Above ${money(previous)}` : `${money(previous)} to ${money(upper)}`,
+            income: slabIncome,
+            rate: slab.rate,
+            tax
+          });
+        }
+        grossTax += tax;
+        previous = upper;
+      });
+      return { grossTax, lines };
+    }
+
+    function oldSlabsForAge(ageBand) {
+      const exemption = ageBand === "super" ? 500000 : ageBand === "senior" ? 300000 : 250000;
+      const slabs = [{ upto: exemption, rate: 0 }];
+      if (exemption < 500000) slabs.push({ upto: 500000, rate: 0.05 });
+      slabs.push({ upto: 1000000, rate: 0.20 }, { upto: Infinity, rate: 0.30 });
+      return slabs;
+    }
+
+    function computeTaxDetailed({ fy, regime, grossIncome, deductions = 0, ageBand = "regular", salaried = true, taxableInput = false }) {
+      const rule = currentRule(fy);
+      const regimeRule = rule.regimes[regime];
+      if (!regimeRule?.available) {
+        return { available: false, finalTax: Infinity, rule, regime };
+      }
+
+      const standardDeduction = taxableInput ? 0 : (salaried ? regimeRule.standardDeduction : 0);
+      const allowedDeductions = taxableInput || regime === "new" ? 0 : deductions;
+      const taxableIncome = Math.max(0, grossIncome - standardDeduction - allowedDeductions);
+      const slabs = regime === "old" ? oldSlabsForAge(ageBand) : regimeRule.slabs;
+      const computation = slabComputation(taxableIncome, slabs);
+      const grossTax = computation.grossTax;
+      const rebateRule = regimeRule.rebate || { limit: 0, amount: 0, marginalRelief: false };
+      let rebate = 0;
+      let marginalRelief = 0;
+      let taxAfterRebate = grossTax;
+
+      if (taxableIncome <= rebateRule.limit) {
+        rebate = Math.min(rebateRule.amount, grossTax);
+        taxAfterRebate = Math.max(0, grossTax - rebate);
+      } else if (rebateRule.marginalRelief) {
+        const permittedTax = Math.max(0, taxableIncome - rebateRule.limit);
+        if (grossTax > permittedTax) {
+          marginalRelief = grossTax - permittedTax;
+          taxAfterRebate = permittedTax;
+        }
+      }
+
+      const surchargePct = surchargeRate(taxableIncome, regime, rule);
+      const surcharge = taxAfterRebate * surchargePct;
+      const cess = (taxAfterRebate + surcharge) * rule.cess;
+      const finalTax = Math.round(taxAfterRebate + surcharge + cess);
+
+      return {
+        available: true,
+        fy,
+        rule,
+        regime,
+        grossIncome,
+        deductions: allowedDeductions,
+        standardDeduction,
+        taxableIncome,
+        slabLines: computation.lines,
+        grossTax,
+        rebate,
+        marginalRelief,
+        taxAfterRebate,
+        surchargePct,
+        surcharge,
+        cess,
+        finalTax
+      };
+    }
+
+    function taxByRegime(taxableIncome, regime, ageBand = "regular", fy = "2025-26") {
+      return computeTaxDetailed({ fy, regime, grossIncome: taxableIncome, ageBand, taxableInput: true }).finalTax;
+    }
+
+    function populateTaxYearSelects() {
+      const options = taxYearOrder.map(fy => `<option value="${fy}">${taxRules[fy].label}</option>`).join("");
+      ["taxYear", "currentFy89"].forEach(id => {
+        const select = document.getElementById(id);
+        select.innerHTML = options;
+        select.value = "2025-26";
+      });
+    }
+
+    function renderWorking(targetId, detail) {
+      const target = document.getElementById(targetId);
+      if (!detail?.available) {
+        target.innerHTML = `<div class="working-line"><span>Regime status</span><strong>Not available for selected FY</strong></div>`;
+        return;
+      }
+      const slabHtml = detail.slabLines
+        .filter(line => line.income > 0)
+        .map(line => `<div class="working-line"><span>${line.label} at ${formatPercent(line.rate)}</span><strong>${money(line.tax)}</strong></div>`)
+        .join("");
+      target.innerHTML = `
+        <div class="working-line"><span>Assessment year</span><strong>${detail.rule.ay}</strong></div>
+        <div class="working-line"><span>Gross income</span><strong>${money(detail.grossIncome)}</strong></div>
+        <div class="working-line"><span>Standard deduction</span><strong>${money(detail.standardDeduction)}</strong></div>
+        <div class="working-line"><span>Other deductions considered</span><strong>${money(detail.deductions)}</strong></div>
+        <div class="working-line"><span>Taxable income</span><strong>${money(detail.taxableIncome)}</strong></div>
+        ${slabHtml}
+        <div class="working-line"><span>Gross tax before rebate</span><strong>${money(detail.grossTax)}</strong></div>
+        <div class="working-line"><span>Section 87A rebate</span><strong>${money(detail.rebate)}</strong></div>
+        <div class="working-line"><span>Marginal relief adjustment</span><strong>${money(detail.marginalRelief)}</strong></div>
+        <div class="working-line"><span>Surcharge (${formatPercent(detail.surchargePct)})</span><strong>${money(detail.surcharge)}</strong></div>
+        <div class="working-line"><span>Health & education cess (${formatPercent(detail.rule.cess)})</span><strong>${money(detail.cess)}</strong></div>
+        <div class="working-line"><span>Final tax liability</span><strong>${money(detail.finalTax)}</strong></div>
+      `;
+    }
+
+    function renderChart(newDetail, oldDetail) {
+      const max = Math.max(newDetail.available ? newDetail.finalTax : 0, oldDetail.available ? oldDetail.finalTax : 0, 1);
+      document.getElementById("taxChart").innerHTML = [
+        ["New regime", newDetail],
+        ["Old regime", oldDetail]
+      ].map(([label, detail]) => {
+        const value = detail.available ? detail.finalTax : 0;
+        return `<div class="chart-bar"><span>${label}</span><div class="bar-track"><div class="bar-fill" style="--w:${Math.min(100, (value / max) * 100)}%"></div></div><strong>${formatTax(detail.available ? value : Infinity)}</strong></div>`;
+      }).join("");
+    }
+
+    function explainTax(best, newDetail, oldDetail) {
+      const detail = best === "New" ? newDetail : oldDetail;
+      if (!detail.available) return "The selected regime is not available for this financial year.";
+      const slab = detail.slabLines.filter(line => line.income > 0).at(-1);
+      const rebateText = detail.rebate > 0
+        ? `Section 87A rebate of ${money(detail.rebate)} was allowed because taxable income is within the rebate threshold.`
+        : detail.marginalRelief > 0
+          ? `Marginal relief of ${money(detail.marginalRelief)} was applied to prevent a sudden tax jump above the rebate threshold.`
+          : "No Section 87A rebate was available at this taxable income.";
+      return `${best} regime is currently better. Taxable income is ${money(detail.taxableIncome)} for ${detail.rule.label}. The highest active slab is ${slab ? `${slab.label} at ${formatPercent(slab.rate)}` : "nil slab"}. ${rebateText} Surcharge is ${money(detail.surcharge)} and cess is ${money(detail.cess)}, giving final tax of ${money(detail.finalTax)}.`;
+    }
+
+    function calculateIncomeTax() {
+      const fy = document.getElementById("taxYear").value;
+      const rule = currentRule(fy);
+      const gross = Number(document.getElementById("grossIncome").value) || 0;
+      const deductions = Number(document.getElementById("deductions").value) || 0;
+      const ageBand = document.getElementById("ageBand").value;
+      const salaried = document.getElementById("salaryType").value === "salaried";
+      const newDetail = computeTaxDetailed({ fy, regime: "new", grossIncome: gross, deductions, ageBand, salaried });
+      const oldDetail = computeTaxDetailed({ fy, regime: "old", grossIncome: gross, deductions, ageBand, salaried });
+      const newTax = newDetail.finalTax;
+      const oldTax = oldDetail.finalTax;
+      const best = newTax <= oldTax ? "New" : "Old";
+      const saving = Math.abs((Number.isFinite(newTax) ? newTax : oldTax) - oldTax);
+      const bestDetail = best === "New" ? newDetail : oldDetail;
+
+      document.getElementById("newTaxResult").textContent = formatTax(newDetail.available ? newTax : Infinity);
+      document.getElementById("oldTaxResult").textContent = formatTax(oldTax);
+      document.getElementById("bestRegimeResult").textContent = best;
+      document.getElementById("savingResult").textContent = money(saving);
+      renderWorking("taxBreakdown", bestDetail);
+      renderChart(newDetail, oldDetail);
+      document.getElementById("taxExplanation").textContent = explainTax(best, newDetail, oldDetail);
+      document.getElementById("taxNote").textContent =
+        `${rule.label}. New regime availability, slab, standard deduction, rebate, surcharge, cess, and marginal relief are read from the selected FY rule table. Special-rate income is not included.`;
+    }
+
+    function regimeOptionsForFy(fy, selectedRegime = "old") {
+      const availableRegimes = [
+        ["old", "Old"],
+        ["new", "New"]
+      ].filter(([regime]) => currentRule(fy).regimes[regime]?.available);
+      const selected = availableRegimes.some(([regime]) => regime === selectedRegime)
+        ? selectedRegime
+        : availableRegimes[0]?.[0] || "old";
+      return availableRegimes.map(([regime, label]) =>
+        `<option value="${regime}" ${selected === regime ? "selected" : ""}>${label}</option>`
+      ).join("");
+    }
+
+    function syncArrearRegimeOptions(row) {
+      const fy = row.querySelector("[data-field='fy']").value;
+      const regimeSelect = row.querySelector("[data-field='regime']");
+      regimeSelect.innerHTML = regimeOptionsForFy(fy, regimeSelect.value);
+    }
+
+    function renderForm10EDraft(data) {
+      const target = document.getElementById("form10eDraft");
+      if (!target) return;
+      const pastRows = data.rows.length
+        ? data.rows.map(row => `
+          <tr>
+            <td>${row.year}</td>
+            <td>${row.regime === "new" ? "New" : "Old"}</td>
+            <td>${money(row.normal)}</td>
+            <td>${money(row.arrears)}</td>
+            <td>${money(row.withoutArrears.finalTax)}</td>
+            <td>${money(row.withArrears.finalTax)}</td>
+            <td>${money(row.extra)}</td>
+          </tr>
+        `).join("")
+        : `<tr><td colspan="7">No past-year arrear row added.</td></tr>`;
+
+      target.innerHTML = `
+        <h4>Draft Form 10E Working - Section 89(1)</h4>
+        <p>This is a helper draft generated from the Section 89 calculator values. Use the official Income Tax portal Form 10E for final filing.</p>
+        <table class="form10e-table">
+          <tbody>
+            <tr><th>Current financial year</th><td>${currentRule(data.currentFy).label}</td></tr>
+            <tr><th>Current regime</th><td>${data.currentRegime === "new" ? "New regime" : "Old regime"}</td></tr>
+            <tr><th>Income excluding arrears</th><td>${money(data.currentNormal)}</td></tr>
+            <tr><th>Arrears received</th><td>${money(data.arrearsReceived)}</td></tr>
+            <tr><th>Tax without arrears</th><td>${money(data.currentWithoutArrears.finalTax)}</td></tr>
+            <tr><th>Tax with arrears</th><td>${money(data.currentWithArrears.finalTax)}</td></tr>
+            <tr><th>Extra tax in current year</th><td>${money(data.extraNow)}</td></tr>
+            <tr><th>Total extra tax in past years</th><td>${money(data.extraThen)}</td></tr>
+            <tr><th>Relief under Section 89(1)</th><td><strong>${money(data.relief)}</strong></td></tr>
+            <tr><th>Tax after relief</th><td>${money(data.finalAdjustedTax)}</td></tr>
+            <tr><th>Balance after TDS/tax paid</th><td>${money(data.balanceAfterTds)}</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Past-year arrear allocation</strong></p>
+        <table class="form10e-table">
+          <thead>
+            <tr>
+              <th>Financial year</th>
+              <th>Regime</th>
+              <th>Income without arrears</th>
+              <th>Arrears</th>
+              <th>Tax without arrears</th>
+              <th>Tax with arrears</th>
+              <th>Extra tax then</th>
+            </tr>
+          </thead>
+          <tbody>${pastRows}</tbody>
+        </table>
+      `;
+    }
+
+    function toggleForm10EView() {
+      const panel = document.getElementById("form10eDraft");
+      const button = document.getElementById("viewForm10E");
+      panel.hidden = !panel.hidden;
+      button.textContent = panel.hidden ? "View Form 10E draft" : "Hide Form 10E draft";
+      if (!panel.hidden) panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    function printForm10EDraft() {
+      const panel = document.getElementById("form10eDraft");
+      const wasHidden = panel.hidden;
+      panel.hidden = false;
+      printCalculatorSection("print-form10e", () => {
+        panel.hidden = wasHidden;
+        document.getElementById("viewForm10E").textContent = panel.hidden ? "View Form 10E draft" : "Hide Form 10E draft";
+      });
+    }
+    function calculateSection89() {
+      const currentFy = document.getElementById("currentFy89").value;
+      const currentNormal = Number(document.getElementById("currentNormal").value) || 0;
+      const arrearsReceived = Number(document.getElementById("arrearsReceived").value) || 0;
+      const currentTaxPaid = Number(document.getElementById("currentTaxPaid89").value) || 0;
+      const currentRegime = document.getElementById("currentRegime89").value;
+      const rows = [...document.querySelectorAll(".arrear-row")].map(row => {
+        syncArrearRegimeOptions(row);
+        const fy = row.querySelector("[data-field='fy']").value;
+        const normal = Number(row.querySelector("[data-field='normal']").value) || 0;
+        const arrears = Number(row.querySelector("[data-field='arrears']").value) || 0;
+        const taxPaid = Number(row.querySelector("[data-field='taxPaid']").value) || 0;
+        const regime = row.querySelector("[data-field='regime']").value;
+        const year = taxRules[fy]?.label || fy;
+        const withArrears = computeTaxDetailed({ fy, regime, grossIncome: normal + arrears, taxableInput: true });
+        const withoutArrears = computeTaxDetailed({ fy, regime, grossIncome: normal, taxableInput: true });
+        const extra = withArrears.available && withoutArrears.available ? Math.max(0, withArrears.finalTax - withoutArrears.finalTax) : 0;
+        return { fy, year, normal, arrears, taxPaid, regime, withArrears, withoutArrears, extra };
+      });
+
+      const currentWithArrears = computeTaxDetailed({ fy: currentFy, regime: currentRegime, grossIncome: currentNormal + arrearsReceived, taxableInput: true });
+      const currentWithoutArrears = computeTaxDetailed({ fy: currentFy, regime: currentRegime, grossIncome: currentNormal, taxableInput: true });
+      const extraNow = currentWithArrears.available && currentWithoutArrears.available ? Math.max(0, currentWithArrears.finalTax - currentWithoutArrears.finalTax) : 0;
+      const extraThen = rows.reduce((sum, row) => sum + row.extra, 0);
+      const relief = Math.max(0, extraNow - extraThen);
+      const rowArrearsTotal = rows.reduce((sum, row) => sum + row.arrears, 0);
+      const finalAdjustedTax = currentWithArrears.available ? Math.max(0, currentWithArrears.finalTax - relief) : 0;
+      const balanceAfterTds = Math.max(0, finalAdjustedTax - currentTaxPaid);
+
+      document.getElementById("extraNowResult").textContent = money(extraNow);
+      document.getElementById("extraThenResult").textContent = money(extraThen);
+      document.getElementById("relief89Result").textContent = money(relief);
+      document.getElementById("afterReliefResult").textContent = money(finalAdjustedTax);
+      document.getElementById("arrearBreakdown").textContent = rows.length
+        ? rows.map(row => `${row.year}: arrears ${money(row.arrears)}, previous tax paid ${money(row.taxPaid)}, extra tax then ${money(row.extra)} (${row.regime} regime)`).join(" | ") +
+          ` | Entered past-year arrears total: ${money(rowArrearsTotal)}. Current-year rule: ${currentRule(currentFy).label}.`
+        : "Add at least one previous year to calculate Section 89 relief.";
+      document.getElementById("section89Working").innerHTML = `
+        <div class="working-line"><span>Current year tax without arrears</span><strong>${money(currentWithoutArrears.finalTax)}</strong></div>
+        <div class="working-line"><span>Current year tax with arrears</span><strong>${money(currentWithArrears.finalTax)}</strong></div>
+        <div class="working-line"><span>Additional tax burden in current year</span><strong>${money(extraNow)}</strong></div>
+        ${rows.map(row => `
+          <div class="working-line"><span>${row.year} tax without arrears</span><strong>${money(row.withoutArrears.finalTax)}</strong></div>
+          <div class="working-line"><span>${row.year} tax with allocated arrears</span><strong>${money(row.withArrears.finalTax)}</strong></div>
+          <div class="working-line"><span>${row.year} additional tax then</span><strong>${money(row.extra)}</strong></div>
+        `).join("")}
+        <div class="working-line"><span>Total additional tax in past years</span><strong>${money(extraThen)}</strong></div>
+        <div class="working-line"><span>Relief u/s 89(1)</span><strong>${money(relief)}</strong></div>
+        <div class="working-line"><span>Final adjusted tax</span><strong>${money(finalAdjustedTax)}</strong></div>
+        <div class="working-line"><span>Balance after tax already paid/TDS</span><strong>${money(balanceAfterTds)}</strong></div>
+      `;
+      document.getElementById("section89Explanation").textContent =
+        `Section 89 compares the extra tax caused by receiving arrears in ${currentRule(currentFy).label} with the total extra tax that would have arisen in the original arrear years. Relief is ${money(relief)} because current extra tax is ${money(extraNow)} and past-year extra tax is ${money(extraThen)}.`;
+      renderForm10EDraft({
+        currentFy,
+        currentRegime,
+        currentNormal,
+        arrearsReceived,
+        currentWithArrears,
+        currentWithoutArrears,
+        extraNow,
+        extraThen,
+        relief,
+        finalAdjustedTax,
+        balanceAfterTds,
+        rows
+      });
+    }
+
+    function addArrearYear(data = {}) {
+      const id = ++arrearYearId;
+      const container = document.getElementById("arrearYears");
+      const row = document.createElement("div");
+      row.className = "arrear-row";
+      row.dataset.id = id;
+      const selectedFy = data.fy || taxYearOrder[0];
+      const fyOptions = taxYearOrder.map(fy =>
+        `<option value="${fy}" ${selectedFy === fy ? "selected" : ""}>${taxRules[fy].label}</option>`
+      ).join("");
+      const regimeOptions = regimeOptionsForFy(selectedFy, data.regime || "old");
+      row.innerHTML = `
+        <div class="field">
+          <label for="arrearYear${id}">Arrear financial year</label>
+          <select id="arrearYear${id}" data-field="fy">${fyOptions}</select>
+        </div>
+        <div class="field">
+          <label for="pastNormal${id}">Taxable income without arrears</label>
+          <input id="pastNormal${id}" data-field="normal" type="number" min="0" step="1000" value="${data.normal ?? 0}" />
+        </div>
+        <div class="field">
+          <label for="pastArrears${id}">Arrears for this year</label>
+          <input id="pastArrears${id}" data-field="arrears" type="number" min="0" step="1000" value="${data.arrears ?? 0}" />
+        </div>
+        <div class="field">
+          <label for="pastTaxPaid${id}">Previous tax paid</label>
+          <input id="pastTaxPaid${id}" data-field="taxPaid" type="number" min="0" step="1000" value="${data.taxPaid ?? 0}" />
+        </div>
+        <div class="field">
+          <label for="pastRegime${id}">Regime</label>
+          <select id="pastRegime${id}" data-field="regime">${regimeOptions}</select>
+        </div>
+        <button class="icon-button" type="button" aria-label="Remove this arrear year">-</button>
+      `;
+      container.appendChild(row);
+      row.querySelectorAll("input, select").forEach(input => {
+        input.addEventListener("input", calculateSection89);
+        input.addEventListener("change", () => {
+          if (input.dataset.field === "fy") syncArrearRegimeOptions(row);
+          calculateSection89();
+        });
+      });
+      row.querySelector("button").addEventListener("click", () => {
+        row.remove();
+        calculateSection89();
+      });
+      calculateSection89();
+    }
+
+    function printCalculatorSection(printClass, afterCleanup) {
+      const classes = ["print-tax", "print-89", "print-form10e"];
+      const clearPrintClasses = () => classes.forEach(name => document.body.classList.remove(name));
+      const cleanup = () => {
+        clearPrintClasses();
+        if (afterCleanup) afterCleanup();
+      };
+      clearPrintClasses();
+      document.body.classList.add(printClass);
+      window.addEventListener("afterprint", cleanup, { once: true });
+      window.print();
+      window.setTimeout(cleanup, 1000);
+    }
+    function bindCalculators() {
+      [
+        "taxYear", "grossIncome", "deductions", "ageBand", "salaryType",
+        "currentFy89", "currentNormal", "arrearsReceived", "currentTaxPaid89", "currentRegime89"
+      ].forEach(id => {
+        document.getElementById(id).addEventListener("input", () => {
+          calculateIncomeTax();
+          calculateSection89();
+        });
+        document.getElementById(id).addEventListener("change", () => {
+          calculateIncomeTax();
+          calculateSection89();
+        });
+      });
+      document.getElementById("addArrearYear").addEventListener("click", () => addArrearYear({
+        fy: "2023-24",
+        normal: 0,
+        arrears: 0,
+        taxPaid: 0,
+        regime: "old"
+      }));
+      document.getElementById("printTaxWorking").addEventListener("click", () => printCalculatorSection("print-tax"));
+      document.getElementById("print89Working").addEventListener("click", () => printCalculatorSection("print-89"));
+      document.getElementById("viewForm10E").addEventListener("click", toggleForm10EView);
+      document.getElementById("printForm10E").addEventListener("click", printForm10EDraft);
+      defaultArrearYears.forEach(addArrearYear);
+      calculateIncomeTax();
+      calculateSection89();
+    }
+
+    function createResources() {
+      resourceGrid.innerHTML = officialResources.map(([name, url, desc, icon]) => `
+        <article class="glass-card tilt-card">
+          <div class="card-icon" aria-hidden="true">${icon}</div>
+          <h3>${name}</h3>
+          <p>${desc}</p>
+          <a class="card-link" href="${url}" target="_blank" rel="noopener noreferrer">Open official portal</a>
+        </article>
+      `).join("");
+
+      bankStrip.innerHTML = banks.map(([name, url]) => `
+        <a class="bank-chip tilt-card" href="${url}" target="_blank" rel="noopener noreferrer">${name}</a>
+      `).join("");
+      bankStrip.hidden = banks.length === 0;
+    }
+
+    function createFilters() {
+      filters.innerHTML = categories.map(category => `
+        <button class="filter ${category === activeCategory ? "active" : ""}" data-category="${category}" type="button">${category}</button>
+      `).join("");
+      filters.querySelectorAll("button").forEach(button => {
+        button.addEventListener("click", () => {
+          activeCategory = button.dataset.category;
+          createFilters();
+          renderNews();
+        });
+      });
+    }
+
+    function proxied(url) {
+      return "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
+    }
+
+    function cleanText(value) {
+      const doc = new DOMParser().parseFromString(value || "", "text/html");
+      return (doc.body.textContent || "").replace(/\s+/g, " ").trim();
+    }
+
+    function formatDate(value) {
+      const date = value ? new Date(value) : new Date();
+      if (Number.isNaN(date.getTime())) return "Date unavailable";
+      return date.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }).replace(/ /g, "-");
+    }
+
+    function inferCategory(title, fallback) {
+      const text = title.toLowerCase();
+      if (/gst|cbic|eway|e-way|customs|icegate/.test(text)) return "GST";
+      if (/income tax|tds|itr|cbdt|traces|direct tax/.test(text)) return "Tax";
+      if (/rbi|repo|monetary|banking|nbfc|upi/.test(text)) return "RBI";
+      if (/sebi|stock|market|nse|bse|ipo|mutual fund|share/.test(text)) return "Markets";
+      if (/bank|credit|deposit|loan/.test(text)) return "Banking";
+      return fallback || "Economy";
+    }
+
+    function summarize(item) {
+      const title = item.title;
+      const desc = cleanText(item.description);
+      const base = desc || title;
+      const short = base.length > 155 ? base.slice(0, 152).replace(/\s+\S*$/, "") + "..." : base;
+      return short || "A trusted finance update has been detected and is ready for review.";
+    }
+
+    function impact(item) {
+      const text = `${item.title} ${item.description}`.toLowerCase();
+      if (/repo|liquidity|monetary|inflation|rbi/.test(text)) return "Finance impact: watch lending rates, liquidity, treasury yields, and bank policy transmission.";
+      if (/gst|tax|tds|itr|compliance|return/.test(text)) return "Finance impact: review compliance timelines, filings, documentation, and working-capital effects.";
+      if (/sebi|stock|market|ipo|mutual fund/.test(text)) return "Finance impact: monitor disclosure rules, investor sentiment, portfolio exposure, and market risk.";
+      if (/bank|loan|credit|deposit|nbfc/.test(text)) return "Finance impact: check borrower costs, deposit strategy, credit policy, and risk controls.";
+      return "Finance impact: track policy, compliance, market, and business confidence implications.";
+    }
+
+    function relatedArticles(item) {
+      return allNews
+        .filter(other => other !== item && (other.category === item.category || other.source === item.source))
+        .slice(0, 2)
+        .map(other => other.title)
+        .join(" | ") || "No close related articles detected yet.";
+    }
+
+    async function readFeed(feed) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+      const response = await fetch(proxied(feed.url), { cache: "no-store", signal: controller.signal });
+      clearTimeout(timeout);
+      if (!response.ok) throw new Error(feed.name + " feed failed");
+      const xml = await response.text();
+      const doc = new DOMParser().parseFromString(xml, "text/xml");
+      const nodes = [...doc.querySelectorAll("item, entry")].slice(0, 8);
+      return nodes.map(node => {
+        const title = cleanText(node.querySelector("title")?.textContent || "Untitled finance update");
+        const description = cleanText(node.querySelector("description, summary, content")?.textContent || "");
+        const link = node.querySelector("link")?.getAttribute("href") || node.querySelector("link")?.textContent || feed.url;
+        const pubDate = node.querySelector("pubDate, published, updated")?.textContent || new Date().toISOString();
+        const sourceFromTitle = title.includes(" - ") ? title.split(" - ").pop() : feed.name;
+        return {
+          title,
+          description,
+          link,
+          pubDate,
+          source: feed.name.includes("Google") ? sourceFromTitle : feed.name,
+          category: inferCategory(title + " " + description, feed.category)
+        };
+      });
+    }
+
+    async function loadNews() {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached);
+          if (Date.now() - parsed.savedAt < 15 * 60 * 1000 && parsed.items?.length) {
+            allNews = parsed.items;
+            status.textContent = "Loaded cached live news. Auto refresh checks every 15 minutes.";
+            renderNews();
+            return;
+          }
+        } catch (error) {}
+      }
+
+      const results = await Promise.allSettled(feeds.map(readFeed));
+      const merged = results.flatMap(result => result.status === "fulfilled" ? result.value : []);
+      const unique = [...new Map(merged.map(item => [item.title, item])).values()]
+        .sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate))
+        .slice(0, 36);
+
+      allNews = unique.length ? unique : fallbackNews;
+      localStorage.setItem(cacheKey, JSON.stringify({ savedAt: Date.now(), items: allNews }));
+      status.textContent = unique.length
+        ? `Updated ${allNews.length} stories from trusted RSS sources. Next auto refresh in 15 minutes.`
+        : "Live feeds are temporarily unavailable, so a cached/fallback news interface is shown.";
+      renderNews();
+    }
+
+    function renderNews() {
+      const visible = allNews.filter(item => {
+        const categoryMatch = activeCategory === "All" || item.category === activeCategory;
+        const searchMatch = !query || `${item.title} ${item.description} ${item.source}`.toLowerCase().includes(query);
+        return categoryMatch && searchMatch;
+      });
+
+      ticker.innerHTML = [...visible, ...visible].slice(0, 18).map(item =>
+        `<span>${item.title} (${formatDate(item.pubDate)} - ${item.source})</span>`
+      ).join("");
+
+      newsGrid.innerHTML = visible.length ? visible.slice(0, 18).map(item => `
+        <article class="news-card tilt-card">
+          <div class="news-meta">
+            <span>${formatDate(item.pubDate)} - ${item.source}</span>
+            <span class="badge">${item.category}</span>
+          </div>
+          <h3>${item.title}</h3>
+          <p class="summary">${summarize(item)}</p>
+          <details>
+            <summary>AI impact analysis</summary>
+            <p class="detail-copy"><strong>Why this matters:</strong> ${impact(item)}</p>
+            <p class="detail-copy"><strong>Suggested related:</strong> ${relatedArticles(item)}</p>
+            <a class="news-link" href="${item.link}" target="_blank" rel="noopener noreferrer">Read full source</a>
+          </details>
+        </article>
+      `).join("") : `<div class="status">No stories match this search yet.</div>`;
+
+      updateInsights(visible);
+      enableTilt();
+    }
+
+    function updateInsights(items) {
+      const terms = ["RBI", "GST", "tax", "bank", "SEBI", "market", "repo", "inflation", "IPO", "compliance"];
+      const counts = terms.map(term => ({
+        term,
+        count: items.filter(item => `${item.title} ${item.description}`.toLowerCase().includes(term.toLowerCase())).length
+      })).filter(item => item.count > 0).sort((a, b) => b.count - a.count);
+      const top = counts.slice(0, 4).map(item => `${item.term} (${item.count})`).join(", ");
+      document.getElementById("trendText").textContent = top ? `Detected momentum around ${top}.` : "No dominant trend detected in the current view.";
+      document.getElementById("whyText").textContent = items.length
+        ? "Current headlines can affect compliance calendars, lending decisions, portfolio risk, tax planning, and CFO cash-flow assumptions."
+        : "Search or category filters can narrow the impact view for a specific workflow.";
+      document.getElementById("relatedText").textContent = items.slice(0, 3).map(item => item.title).join(" | ") || "Related stories will appear after feeds load.";
+    }
+
+    function enableTilt() {
+      document.querySelectorAll(".tilt-card").forEach(card => {
+        if (card.dataset.tiltReady) return;
+        card.dataset.tiltReady = "true";
+        card.addEventListener("pointermove", event => {
+          const rect = card.getBoundingClientRect();
+          const x = event.clientX - rect.left;
+          const y = event.clientY - rect.top;
+          const rx = ((y / rect.height) - 0.5) * -8;
+          const ry = ((x / rect.width) - 0.5) * 8;
+          card.style.setProperty("--mx", `${(x / rect.width) * 100}%`);
+          card.style.setProperty("--my", `${(y / rect.height) * 100}%`);
+          card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px)`;
+        });
+        card.addEventListener("pointerleave", () => {
+          card.style.transform = "";
+        });
+      });
+    }
+
+    const searchInput = document.getElementById("searchInput");
+    if (searchInput) {
+      searchInput.addEventListener("input", event => {
+        query = event.target.value.trim().toLowerCase();
+        renderNews();
+      });
+    }
+
+    const incomeChatSteps = [
+      { key: "gross", label: "Gross total income", question: "What is your gross total income?", type: "number", placeholder: "Example: 1200000" },
+      { key: "deductions", label: "Total deductions", question: "What is your total deduction amount?", type: "number", placeholder: "Example: 150000" },
+      { key: "ageBand", label: "Age category", question: "Choose your age category.", choices: [
+        { label: "Below 60", value: "regular" },
+        { label: "60 to 79", value: "senior" },
+        { label: "80 and above", value: "super" }
+      ] },
+      { key: "salaryType", label: "Salaried / pensioner", question: "Are you a salaried person or pensioner?", choices: [
+        { label: "Yes", value: "salaried" },
+        { label: "No", value: "other" }
+      ] }
+    ];
+
+    const arrearCurrentSteps = [
+      { key: "currentNormal", label: "Current taxable income", question: "Enter current year taxable income excluding arrears.", type: "number", placeholder: "Example: 900000" },
+      { key: "arrearsReceived", label: "Total arrears received", question: "Enter total arrears received this year.", type: "number", placeholder: "Example: 300000" },
+      { key: "currentTaxPaid", label: "Tax paid / TDS", question: "Enter tax already paid or current TDS. If none, type 0.", type: "number", placeholder: "Example: 0" },
+      { key: "currentRegime", label: "Current regime", question: "Choose current year regime.", choices: [
+        { label: "New", value: "new" },
+        { label: "Old", value: "old" }
+      ] }
+    ];
+
+    const arrearYearSteps = [
+      { key: "pastFy", label: "Previous FY", question: "Which previous financial year does this arrear belong to?", choices: [
+        { label: "FY 2024-25", value: "2024-25" },
+        { label: "FY 2023-24", value: "2023-24" },
+        { label: "FY 2022-23", value: "2022-23" },
+        { label: "FY 2021-22", value: "2021-22" },
+        { label: "FY 2020-21", value: "2020-21" },
+        { label: "FY 2019-20", value: "2019-20" }
+      ] },
+      { key: "pastNormal", label: "Previous taxable income", question: "Enter taxable income of that previous year without arrears. If you do not know it, download the intimation order and use taxable income. Add special-rate income also.", type: "number", placeholder: "Example: 650000" },
+      { key: "pastArrears", label: "Arrear for that FY", question: "How much arrear is allocated to that previous year?", type: "number", placeholder: "Example: 180000" },
+      { key: "pastTaxPaid", label: "Previous tax paid", question: "Enter previous tax paid for that year. If unknown or not needed, type 0.", type: "number", placeholder: "Example: 0" },
+      { key: "pastRegime", label: "Previous regime", question: "Choose regime used for that previous year.", choices: [
+        { label: "Old", value: "old" },
+        { label: "New", value: "new" }
+      ] }
+    ];
+
+    const chatState = {
+      mode: null,
+      phase: null,
+      step: 0,
+      answers: {},
+      currentYearAnswer: {},
+      arrearRows: [],
+      editTarget: null
+    };
+
+    function parseAmount(value) {
+      return Number(String(value || "").replace(/[^0-9.]/g, "")) || 0;
+    }
+
+    function formatChatValue(step, value) {
+      const choice = step?.choices?.find(item => item.value === value);
+      if (choice) return choice.label;
+      if (step?.type === "number") return money(parseAmount(value));
+      return value || "Not entered";
+    }
+
+    function activeChatSteps() {
+      if (chatState.mode === "income") return incomeChatSteps;
+      if (chatState.phase === "current") return arrearCurrentSteps;
+      if (chatState.phase === "year") return arrearYearSteps;
+      return [];
+    }
+
+    function appendChatMessage(text, sender = "bot") {
+      const log = document.getElementById("chatLog");
+      const item = document.createElement("div");
+      item.className = `chat-entry ${sender}`;
+      item.textContent = text;
+      log.appendChild(item);
+      log.scrollTop = log.scrollHeight;
+      return item;
+    }
+
+    function appendChatOptions(options) {
+      const log = document.getElementById("chatLog");
+      const wrap = document.createElement("div");
+      wrap.className = "chat-options";
+      options.forEach(option => {
+        const button = document.createElement("button");
+        button.className = "chat-option";
+        button.type = "button";
+        button.textContent = option.label;
+        button.dataset.value = option.value;
+        button.dataset.label = option.label;
+        if (option.key) button.dataset.key = option.key;
+        if (option.rowIndex !== undefined) button.dataset.rowIndex = String(option.rowIndex);
+        wrap.appendChild(button);
+      });
+      log.appendChild(wrap);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function setChatInput(visible, placeholder = "Type your answer") {
+      const row = document.getElementById("chatAnswerRow");
+      const input = document.getElementById("chatAnswer");
+      const send = document.getElementById("sendChatAnswer");
+      row.hidden = false;
+      input.value = "";
+      input.disabled = !visible;
+      send.disabled = !visible;
+      input.placeholder = visible ? placeholder : "Use the choice buttons above";
+      if (visible) input.focus();
+    }
+
+    function choicesForStep(step) {
+      if (chatState.mode === "arrear" && step.key === "pastRegime") {
+        const fy = chatState.answers.pastFy || "2023-24";
+        return step.choices.filter(choice => currentRule(fy).regimes[choice.value]?.available);
+      }
+      return step.choices || [];
+    }
+
+    function askChatStep() {
+      const steps = activeChatSteps();
+      const step = steps[chatState.step];
+      if (!step) return completeChatPhase();
+      appendChatMessage(step.question);
+      if (step.choices) {
+        setChatInput(false);
+        appendChatOptions(choicesForStep(step));
+      } else {
+        setChatInput(true, step.placeholder || "Type your answer");
+      }
+    }
+
+    function startChatFlow(mode) {
+      chatState.mode = mode;
+      chatState.phase = mode === "income" ? "income" : "current";
+      chatState.step = 0;
+      chatState.answers = {};
+      chatState.currentYearAnswer = {};
+      chatState.arrearRows = [];
+      chatState.editTarget = null;
+      document.getElementById("chatLog").innerHTML = "";
+      appendChatMessage(mode === "income" ? "Okay, let us calculate your income tax." : "Okay, let us fill arrear relief details.");
+      askChatStep();
+    }
+
+    function handleChatAnswer(value, label = value) {
+      if (chatState.editTarget) return saveEditedAnswer(value, label);
+      const steps = activeChatSteps();
+      const step = steps[chatState.step];
+      if (!step) return;
+      chatState.answers[step.key] = value;
+      appendChatMessage(label, "user");
+      chatState.step += 1;
+      askChatStep();
+    }
+
+    function completeChatPhase() {
+      setChatInput(false);
+      if (chatState.mode === "income") return showIncomeReview();
+      if (chatState.phase === "current") {
+        chatState.currentYearAnswer = { ...chatState.answers };
+        chatState.answers = {};
+        chatState.phase = "year";
+        chatState.step = 0;
+        appendChatMessage("Now enter previous-year arrear details. You can add more than one year.");
+        return askChatStep();
+      }
+      if (chatState.phase === "year") {
+        chatState.arrearRows.push({ ...chatState.answers });
+        chatState.answers = {};
+        appendChatMessage("Do you want to add arrears for another previous year?");
+        return appendChatOptions([
+          { label: "Add another year", value: "add-year" },
+          { label: "Review and calculate", value: "review-arrear" }
+        ]);
+      }
+    }
+
+    function showIncomeReview() {
+      appendChatMessage("Review your answers before I fill the calculator.");
+      incomeChatSteps.forEach(step => appendChatMessage(`${step.label}: ${formatChatValue(step, chatState.answers[step.key])}`));
+      appendChatOptions([
+        { label: "Calculate now", value: "apply-income" },
+        { label: "Edit answers", value: "edit-income" }
+      ]);
+    }
+
+    function showArrearReview() {
+      appendChatMessage("Review arrear relief answers before I fill the calculator.");
+      arrearCurrentSteps.forEach(step => appendChatMessage(`${step.label}: ${formatChatValue(step, chatState.currentYearAnswer[step.key])}`));
+      chatState.arrearRows.forEach((row, index) => {
+        appendChatMessage(`Previous year ${index + 1}: ${taxRules[row.pastFy]?.label || row.pastFy}, taxable ${money(parseAmount(row.pastNormal))}, arrear ${money(parseAmount(row.pastArrears))}`);
+      });
+      appendChatOptions([
+        { label: "Calculate now", value: "apply-arrear" },
+        { label: "Edit current details", value: "edit-arrear-current" },
+        { label: "Edit previous-year details", value: "edit-arrear-row" },
+        { label: "Add another year", value: "add-year" }
+      ]);
+    }
+
+    function showEditOptions(type, rowIndex = null) {
+      let steps = incomeChatSteps;
+      if (type === "arrear-current") steps = arrearCurrentSteps;
+      if (type === "arrear-row") steps = arrearYearSteps;
+      appendChatMessage("Which answer do you want to edit?");
+      appendChatOptions(steps.map(step => ({ label: step.label, value: `edit:${type}:${step.key}`, key: step.key, rowIndex })));
+    }
+
+    function beginEdit(type, key, rowIndex = null) {
+      let steps = incomeChatSteps;
+      let source = chatState.answers;
+      if (type === "arrear-current") {
+        steps = arrearCurrentSteps;
+        source = chatState.currentYearAnswer;
+      }
+      if (type === "arrear-row") {
+        steps = arrearYearSteps;
+        source = chatState.arrearRows[Number(rowIndex)] || {};
+      }
+      const step = steps.find(item => item.key === key);
+      chatState.editTarget = { type, key, rowIndex, step };
+      appendChatMessage(`Current ${step.label}: ${formatChatValue(step, source[key])}`);
+      appendChatMessage(`Enter new value for ${step.label}.`);
+      if (step.choices) {
+        setChatInput(false);
+        appendChatOptions(choicesForStep(step));
+      } else {
+        setChatInput(true, step.placeholder || "Type new answer");
+      }
+    }
+
+    function saveEditedAnswer(value, label = value) {
+      const target = chatState.editTarget;
+      if (!target) return;
+      if (target.type === "income") chatState.answers[target.key] = value;
+      if (target.type === "arrear-current") chatState.currentYearAnswer[target.key] = value;
+      if (target.type === "arrear-row") chatState.arrearRows[Number(target.rowIndex)][target.key] = value;
+      appendChatMessage(label, "user");
+      chatState.editTarget = null;
+      setChatInput(false);
+      appendChatMessage("Updated. What next?");
+      if (target.type === "income") return showIncomeReview();
+      showArrearReview();
+    }
+
+    function setFieldValue(id, value) {
+      const field = document.getElementById(id);
+      field.value = value;
+      field.dispatchEvent(new Event("input", { bubbles: true }));
+      field.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+
+    function applyIncomeChatAnswers() {
+      const answers = chatState.answers;
+      setFieldValue("grossIncome", parseAmount(answers.gross));
+      setFieldValue("deductions", parseAmount(answers.deductions));
+      setFieldValue("ageBand", answers.ageBand || "regular");
+      setFieldValue("salaryType", answers.salaryType || "salaried");
+      calculateIncomeTax();
+      document.getElementById("taxCalculatorCard").scrollIntoView({ behavior: "smooth", block: "start" });
+      appendChatMessage("Done. I filled the income tax calculator and updated the regime suggestion.");
+      appendChatOptions([{ label: "Income Tax again", value: "income" }, { label: "Arrear Relief", value: "arrear" }]);
+    }
+
+    function applyArrearChatAnswers() {
+      const current = chatState.currentYearAnswer;
+      setFieldValue("currentNormal", parseAmount(current.currentNormal));
+      setFieldValue("arrearsReceived", parseAmount(current.arrearsReceived));
+      setFieldValue("currentTaxPaid89", parseAmount(current.currentTaxPaid));
+      setFieldValue("currentRegime89", current.currentRegime || "new");
+      document.querySelectorAll(".arrear-row").forEach(row => row.remove());
+      chatState.arrearRows.forEach(row => {
+        const pastFy = row.pastFy || "2023-24";
+        const pastRegime = currentRule(pastFy).regimes[row.pastRegime]?.available ? row.pastRegime : "old";
+        addArrearYear({
+          fy: pastFy,
+          normal: parseAmount(row.pastNormal),
+          arrears: parseAmount(row.pastArrears),
+          taxPaid: parseAmount(row.pastTaxPaid),
+          regime: pastRegime
+        });
+      });
+      calculateSection89();
+      document.getElementById("section89CalculatorCard").scrollIntoView({ behavior: "smooth", block: "start" });
+      appendChatMessage("Done. I filled all previous-year arrear rows and updated the Section 89 working.");
+      appendChatOptions([{ label: "Arrear Relief again", value: "arrear" }, { label: "Income Tax", value: "income" }]);
+    }
+
+    function handleChatOption(value, label) {
+      if (chatState.editTarget?.step?.choices) return saveEditedAnswer(value, label);
+      if (chatState.mode && activeChatSteps()[chatState.step]?.choices) return handleChatAnswer(value, label);
+      if (value === "chat") return appendChatMessage("I can guide income tax calculation, compare regimes, and fill one or more arrear relief years. Choose Income Tax or Arrear Relief to start.");
+      if (value === "income" || value === "arrear") return startChatFlow(value);
+      if (value === "add-year") {
+        chatState.mode = "arrear";
+        chatState.phase = "year";
+        chatState.step = 0;
+        chatState.answers = {};
+        appendChatMessage("Okay, add another previous year.");
+        return askChatStep();
+      }
+      if (value === "review-arrear") return showArrearReview();
+      if (value === "apply-income") return applyIncomeChatAnswers();
+      if (value === "apply-arrear") return applyArrearChatAnswers();
+      if (value === "edit-income") return showEditOptions("income");
+      if (value === "edit-arrear-current") return showEditOptions("arrear-current");
+      if (value === "edit-arrear-row") {
+        appendChatMessage("Which previous-year row do you want to edit?");
+        return appendChatOptions(chatState.arrearRows.map((row, index) => ({ label: `Previous year ${index + 1} - ${taxRules[row.pastFy]?.label || row.pastFy}`, value: "choose-edit-row", rowIndex: index })));
+      }
+      if (value === "choose-edit-row") return showEditOptions("arrear-row", Number(event?.target?.dataset?.rowIndex || 0));
+      if (value.startsWith("edit:")) {
+        const [, type, key] = value.split(":");
+        const option = event?.target;
+        return beginEdit(type, key, option?.dataset?.rowIndex ?? null);
+      }
+    }
+
+    function bindGuidedChat() {
+      const send = document.getElementById("sendChatAnswer");
+      const input = document.getElementById("chatAnswer");
+      send.addEventListener("click", () => {
+        if (!input.value.trim()) return;
+        handleChatAnswer(input.value.trim(), input.value.trim());
+      });
+      input.addEventListener("keydown", event => {
+        if (event.key === "Enter") send.click();
+      });
+      document.getElementById("chatLog").addEventListener("click", event => {
+        if (!event.target?.classList?.contains("chat-option")) return;
+        handleChatOption(event.target.dataset.value, event.target.dataset.label);
+      });
+      document.querySelector(".intro-card")?.classList.add("is-guided");
+      setChatInput(false);
+      appendChatMessage("Hi, I am Fin.ans Guide. What do you want to do?");
+      appendChatOptions([
+        { label: "Chat", value: "chat" },
+        { label: "Income Tax", value: "income" },
+        { label: "Arrear Relief", value: "arrear" }
+      ]);
+    }
+    function bindIntroPopup() {
+      const popup = document.getElementById("introPopup");
+      const openButton = document.getElementById("openIntroPopup");
+      const closeButton = document.getElementById("closeIntroPopup");
+      const openPopup = () => popup.classList.add("is-open");
+      const closePopup = () => popup.classList.remove("is-open");
+
+      openButton?.addEventListener("click", openPopup);
+      closeButton.addEventListener("click", closePopup);
+      popup.addEventListener("click", event => {
+        if (event.target === popup) closePopup();
+      });
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape") closePopup();
+      });
+      window.setTimeout(openPopup, 450);
+    }
+
+    createResources();
+    populateTaxYearSelects();
+    bindCalculators();
+    bindIntroPopup();
+    bindGuidedChat();
+    enableTilt();
+  </script>
+</body>
+</html>
